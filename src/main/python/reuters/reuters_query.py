@@ -18,19 +18,19 @@ def main(args):
     dictionary_file = args.dictionary
     collection_file = args.collection
     docset_file = args.docset
+    query_type = 'or'
 
-    query_maker = QueryMaker(dictionary_file, collection_file, docset_file, args.keywords, args.query_type.lower())
+    query_maker = QueryMaker(dictionary_file, collection_file, docset_file, args.keywords, query_type)
     query = query_maker.make_query()
 
     if query.result:
         print("Documents matching query: ")
-        print('\n'.join(["doc_id: {}, rank_val: {}".format(str(result_tuple[0]), str(result_tuple[1]))
-                         for result_tuple in query.result]))
+        print('\n'.join(["{}. doc_id: {}, rank_val: {}".format(str(idx + 1), str(result_tuple[0]), str(result_tuple[1]))
+                         for idx, result_tuple in enumerate(query.result)]))
 
 
 def parse_args(sys_args):
     parser = ArgumentParser(description="Query the Reuters corpus.")
-    parser.add_argument('query_type', metavar='(AND | OR)', choices=['AND', 'and', 'OR', 'or'])
     parser.add_argument('keywords', metavar='term', nargs='+')
     parser.add_argument('-d', '--dictionary', type=str, default=DICTIONARY_FILE)
     parser.add_argument('-c', '--collection', type=str, default=COLLECTION_FILE)

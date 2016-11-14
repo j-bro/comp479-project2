@@ -25,7 +25,7 @@ class Query:
         """
         keywords_iter = iter(self.keywords)
         next_keyword = keywords_iter.next()
-        print("Searching for keyword {}".format(next_keyword))
+        print("Searching for keyword '{}'".format(next_keyword))
 
         self.dictionary_file.open_handle()
         result_lines = dict()
@@ -38,14 +38,14 @@ class Query:
             if line.term < next_keyword:
                 continue
             elif line.term == next_keyword:
-                print("Found postings list for term {}".format(next_keyword))
+                print("Found postings list for term '{}'".format(next_keyword))
                 result_lines[line.term] = line
             else:
-                print("No postings list found for term {}".format(next_keyword))
+                print("No postings list found for term '{}'".format(next_keyword))
 
             try:
                 next_keyword = keywords_iter.next()
-                print("Searching for keyword {}".format(next_keyword))
+                print("Searching for keyword '{}'".format(next_keyword))
             except StopIteration:
                 print("Finished searching for all keywords")
                 break
@@ -61,7 +61,6 @@ class AndQuery(Query):
         """
         Store the results of this 'AND' query in self.results.
         """
-        print("Running AND query")
         query_dictionary_file_lines = self.get_dictionary_file_lines_for_keywords()
         result_postings_list = intersect_lists([result.postings_list for term, result in query_dictionary_file_lines.items()])
         ranked_postings_list = rank_results(self.keywords, query_dictionary_file_lines, result_postings_list,
@@ -78,7 +77,6 @@ class OrQuery(Query):
         """
         Store the results of this 'OR' query in self.results.
         """
-        print("Running OR query")
         query_dictionary_file_lines = self.get_dictionary_file_lines_for_keywords()
         result_postings_list = merge_lists([result.postings_list for term, result in query_dictionary_file_lines.items()])
         ranked_postings_list = rank_results(self.keywords, query_dictionary_file_lines, result_postings_list,

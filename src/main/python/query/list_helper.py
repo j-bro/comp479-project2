@@ -49,14 +49,15 @@ def rank_results(keywords, query_terms_info, results_list, collection_info, docs
     for doc_id in results_list:
         doc_length = docset_info.get_doc_info(doc_id).doc_length
 
-        # Keep sum of ranking values for all terms ranking values for the given document --> that document's ranking value
+        # Keep sum of ranking values for all terms ranking values for the given document
         doc_ranking_val = 0
         for term in keywords:
-            # Get term frequency & document frequency for each term x document cross product
-            doc_freq = query_terms_info[term].get_document_frequency()
-            term_freq = query_terms_info[term].get_term_frequency(doc_id)
+            if term in query_terms_info:
+                # Get term frequency & document frequency for each term x document cross product
+                doc_freq = query_terms_info[term].get_document_frequency()
+                term_freq = query_terms_info[term].get_term_frequency(doc_id)
 
-            doc_ranking_val += compute_term_doc_rank(total_doc_count, avg_doc_length, doc_length, doc_freq, term_freq)
+                doc_ranking_val += compute_term_doc_rank(total_doc_count, avg_doc_length, doc_length, doc_freq, term_freq)
 
         doc_rankings[doc_id] = doc_ranking_val
 
@@ -65,7 +66,7 @@ def rank_results(keywords, query_terms_info, results_list, collection_info, docs
 
 def compute_term_doc_rank(total_doc_count, avg_doc_length, doc_length, doc_freq, term_freq):
     """
-    Use the Okai BM25 model to compute
+    Use the Okai BM25 model to compute aranking for the given term and document.
     :param total_doc_count: the number of documents in the collection.
     :param avg_doc_length: the average length of documents in the collection.
     :param doc_length: the length of the given document.

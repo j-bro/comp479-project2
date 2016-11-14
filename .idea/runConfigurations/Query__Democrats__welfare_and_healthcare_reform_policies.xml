@@ -1,5 +1,5 @@
 <component name="ProjectRunConfigurationManager">
-  <configuration default="false" name="Query: OR Drug company bankruptcies" type="PythonConfigurationType" factoryName="Python">
+  <configuration default="false" name="Query: Democrats' welfare and healthcare reform policies" type="PythonConfigurationType" factoryName="Python">
     <option name="INTERPRETER_OPTIONS" value="" />
     <option name="PARENT_ENVS" value="true" />
     <envs>
@@ -13,7 +13,7 @@
     <module name="comp479-project2" />
     <EXTENSION ID="PythonCoverageRunConfigurationExtension" enabled="false" sample_coverage="true" runner="coverage.py" />
     <option name="SCRIPT_NAME" value="$PROJECT_DIR$/src/main/python/reuters/reuters_query.py" />
-    <option name="PARAMETERS" value="or Drug company bankruptcies" />
+    <option name="PARAMETERS" value="Democrats' welfare and healthcare reform policies" />
     <option name="SHOW_COMMAND_LINE" value="false" />
     <method />
   </configuration>

@@ -18,7 +18,7 @@ sys.setdefaultencoding('utf-8')
 
 class ReutersParser:
 
-    def __init__(self, reuters_folder, stem=False, case_folding=False, no_numbers=False, remove_stopwords=False,
+    def __init__(self, reuters_folder, stem=False, case_folding=False, no_numbers=False, no_stopword_removal=False,
                  data_file_suffix='.sgm', stopwords=set(stopwords.words('english')), output_directory='out'):
         """
         Instantiate the object to parse the Reuters corpus.
@@ -26,7 +26,7 @@ class ReutersParser:
         :param stem: whether or not to stem the term list (True/False)
         :param case_folding: whether or not to use case folding on the term list (True/False)
         :param no_numbers: whether or not to remove numbers from the term list (True/False)
-        :param remove_stopwords: whether or not to remove stopwords from the term list (True/False)
+        :param no_stopword_removal: whether or not to remove stopwords from the term list (True/False)
         :param data_file_suffix: the suffix of the Reuters data files.
         :param stopwords: the set of stopwords to use if the remove_stopwords option is selected.
         """
@@ -35,7 +35,7 @@ class ReutersParser:
         self.stem = stem
         self.case_folding = case_folding
         self.no_numbers = no_numbers
-        self.remove_stopwords = remove_stopwords
+        self.no_stopword_removal = no_stopword_removal
         self.data_file_suffix = data_file_suffix
         file_path_prefix = os.path.join(os.getcwd(), reuters_folder)
         self.reuters_files = [os.path.join(file_path_prefix, f) for f in os.listdir(reuters_folder) if f.endswith(data_file_suffix)]
@@ -110,7 +110,7 @@ class ReutersParser:
         :return: the compressed term list.
         """
         # stem & remove stopwords
-        if self.remove_stopwords:
+        if not self.no_stopword_removal:
             term_list = [t for t in term_list if t not in self.stopwords]
         if self.stem:
             stemmer = PorterStemmer()

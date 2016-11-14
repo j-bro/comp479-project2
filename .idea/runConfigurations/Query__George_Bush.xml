@@ -1,5 +1,5 @@
 <component name="ProjectRunConfigurationManager">
-  <configuration default="false" name="Query: AND George Bush" type="PythonConfigurationType" factoryName="Python">
+  <configuration default="false" name="Query: George Bush" type="PythonConfigurationType" factoryName="Python">
     <option name="INTERPRETER_OPTIONS" value="" />
     <option name="PARENT_ENVS" value="true" />
     <envs>
@@ -13,7 +13,7 @@
     <module name="comp479-project2" />
     <EXTENSION ID="PythonCoverageRunConfigurationExtension" enabled="false" sample_coverage="true" runner="coverage.py" />
     <option name="SCRIPT_NAME" value="$PROJECT_DIR$/src/main/python/reuters/reuters_query.py" />
-    <option name="PARAMETERS" value="and George Bush" />
+    <option name="PARAMETERS" value="George Bush" />
     <option name="SHOW_COMMAND_LINE" value="false" />
     <method />
   </configuration>

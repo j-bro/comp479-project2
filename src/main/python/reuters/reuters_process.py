@@ -23,7 +23,7 @@ def main(args):
 
     # Parse
     parser = ReutersParser(REUTERS_DL_DIR, case_folding=args.case_folding, no_numbers=args.no_numbers, stem=args.stem,
-                           remove_stopwords=args.remove_stopwords, output_directory=OUTPUT_DIR)
+                           no_stopword_removal=args.no_stopword_removal, output_directory=OUTPUT_DIR)
     tokens_list = parser.parse()
 
     # Invert
@@ -46,8 +46,8 @@ def determine_output_file_prefix(args):
         output_file_prefix += 'no_numbers_'
     if args.case_folding:
         output_file_prefix += 'case_folding_'
-    if args.remove_stopwords:
-        output_file_prefix += 'stopwords_removed_'
+    if args.no_stopword_removal:
+        output_file_prefix += 'no_stopword_removal'
     if args.stem:
         output_file_prefix += 'stemmed_'
     if output_file_prefix == '':
@@ -61,7 +61,7 @@ def parse_args(sys_args):
     parser.add_argument('-d', '--download-corpus', action='store_true', required=False,
                         help="Force download the corpus even if it is already downloaded.")
     parser.add_argument('-s', '--stem', action='store_true', help="Use stemming.")
-    parser.add_argument('-r', '--remove-stopwords', action='store_true', help="Remove stopwords.")
+    parser.add_argument('-r', '--no-stopword-removal', action='store_true', help="Don't use stopword removal.")
     parser.add_argument('-c', '--case-folding', action='store_true', help="Use case folding.")
     parser.add_argument('-n', '--no-numbers', action='store_true', help="Remove numbers.")
     return parser.parse_args(sys_args)

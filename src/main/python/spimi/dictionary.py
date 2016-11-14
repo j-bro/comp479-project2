@@ -69,7 +69,22 @@ class DictionaryFileLine:
         return cls(block_file_index_list, split_line[0], [int(doc_id) for doc_id in split_line[1:]])
 
     def get_document_frequency(self):
+        """
+        Get the number of documents in which the term appears from the collection.
+        :return: the number of documents in which the term appears from the collection.
+        """
         return len(self.postings_list)
+
+    def get_term_frequency(self, doc_id):
+        """
+        Get the frequency of the term in the document for the given document ID.
+        :param doc_id: the document ID.
+        :return: the number of occurrences of the term in the given document.
+        """
+        freq = 0
+        for doc in self.postings_list:
+            freq += 1 if doc == doc_id else 0
+        return freq
 
     def merge(self, other_file_line):
         """
@@ -85,6 +100,6 @@ class DictionaryFileLine:
     def __str__(self):
         """
         Represent the line object as a string.
-        :return:
+        :return: string representation of the line object.
         """
         return '{} {}\n'.format(self.term, ' '.join([str(doc_id) for doc_id in self.postings_list]))

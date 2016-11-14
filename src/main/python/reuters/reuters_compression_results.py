@@ -23,11 +23,13 @@ def main():
     # stemming = reuters_process.main(ReutersProcessConfig(no_numbers=True, case_folding=True, remove_stopwords=True, stem=True))
 
     headers = ['Post-processing', 'Term count']
-    data = [['No compression', no_compression.term_count],
-            ['No numbers', no_numbers.term_count],
-            ['Case folding', case_folding.term_count],
-            ['Stopwords', remove_stopwords.term_count],]
-            # ['Stemming', stemming.term_count]]
+    data = [
+        ['No compression', no_compression.term_count],
+        ['No numbers', no_numbers.term_count],
+        ['Case folding', case_folding.term_count],
+        ['Stopwords', remove_stopwords.term_count],
+        # ['Stemming', stemming.term_count],
+    ]
 
     print(tabulate(data, headers=headers, tablefmt='orgtbl'))
 

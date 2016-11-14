@@ -1,7 +1,7 @@
 from spimi.dictionary import DictionaryFile
 from collection.collection import CollectionInfo
 from collection.document import DocumentSetInfo
-from list_helper import merge_lists, intersect_lists
+from list_helper import merge_lists, intersect_lists, rank_results
 
 
 class Query:
@@ -21,7 +21,6 @@ class Query:
     def get_dictionary_file_lines_for_keywords(self):
         """
         Get the dictionary lines (terms + postings lists) matching the specified keywords
-        :param keywords: the keywords to look for
         :return: A list of the DictionaryFileLine objects related to the keywords read from the dictionary file.
         """
         keywords_iter = iter(self.keywords)
@@ -29,7 +28,7 @@ class Query:
         print("Searching for keyword {}".format(next_keyword))
 
         self.dictionary_file.open_handle()
-        result_lines = list()
+        result_lines = dict()
         while next_keyword:
             line = self.dictionary_file.read_line_to_obj()
             if not line:
@@ -40,7 +39,9 @@ class Query:
                 continue
             elif line.term == next_keyword:
                 print("Found postings list for term {}".format(next_keyword))
-                result_lines.append(line)
+                result_lines[line.term] = line
+            else:
+                print("No postings list found for term {}".format(next_keyword))
 
             try:
                 next_keyword = keywords_iter.next()
@@ -60,9 +61,12 @@ class AndQuery(Query):
         """
         Store the results of this 'AND' query in self.results.
         """
+        print("Running AND query")
         query_dictionary_file_lines = self.get_dictionary_file_lines_for_keywords()
-        result_postings_list = intersect_lists([result.postings_list for result in query_dictionary_file_lines])
-        self.result = result_postings_list
+        result_postings_list = intersect_lists([result.postings_list for term, result in query_dictionary_file_lines.items()])
+        ranked_postings_list = rank_results(self.keywords, query_dictionary_file_lines, result_postings_list,
+                                            self.collection_info, self.docset_info)
+        self.result = ranked_postings_list
         print("Found {} matching documents".format(len(result_postings_list)))
 
 
@@ -74,7 +78,10 @@ class OrQuery(Query):
         """
         Store the results of this 'OR' query in self.results.
         """
+        print("Running OR query")
         query_dictionary_file_lines = self.get_dictionary_file_lines_for_keywords()
-        result_postings_list = merge_lists([result.postings_list for result in query_dictionary_file_lines])
-        self.result = result_postings_list
+        result_postings_list = merge_lists([result.postings_list for term, result in query_dictionary_file_lines.items()])
+        ranked_postings_list = rank_results(self.keywords, query_dictionary_file_lines, result_postings_list,
+                                            self.collection_info, self.docset_info)
+        self.result = ranked_postings_list
         print("Found {} matching documents".format(len(result_postings_list)))

@@ -105,9 +105,9 @@ class ReutersParser:
 
     def compress_terms(self, term_list):
         """
-        Stem and remove stopwords
-        :param term_list:
-        :return:
+        Stem and remove stopwords, remove numbers & use case folding if these options are enabled.
+        :param term_list: the term list to compress.
+        :return: the compressed term list.
         """
         # stem & remove stopwords
         if self.remove_stopwords:
@@ -123,12 +123,20 @@ class ReutersParser:
         return term_list
 
     def write_collection_file(self, collection_obj):
+        """
+        Write the CollectionInfo instance to a file.
+        :param collection_obj: a CollectionInfo instance
+        """
         collection_file_path = os.path.join(self.output_directory, self.collection_file_name)
         print("Writing collection file to {}".format(collection_file_path))
         with open(collection_file_path, 'w') as f:
             f.write(str(collection_obj))
 
     def write_documents_file(self, documents_obj):
+        """
+        Write the DocumentSetInfo instance to a file.
+        :param documents_obj: a DocumentSetInfo instance
+        """
         documents_file_path = os.path.join(self.output_directory, self.documents_file_name)
         print("Writing document set file to {}".format(documents_file_path))
         with open(documents_file_path, 'w') as f:
@@ -136,6 +144,11 @@ class ReutersParser:
 
     @staticmethod
     def is_number(string):
+        """
+        Determine whether the given string is an integer.
+        :param string: the string.
+        :return: true if the given string is an integer, false otherwise.
+        """
         try:
             int_value = int(string)
         except ValueError:
